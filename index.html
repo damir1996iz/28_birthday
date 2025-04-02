@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>С Днём Рождения! 28 лет!</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-20px); }
+            100% { transform: translateY(0px); }
+        }
+        @keyframes shake {
+            0% { transform: rotate(0deg); }
+            25% { transform: rotate(5deg); }
+            50% { transform: rotate(0deg); }
+            75% { transform: rotate(-5deg); }
+            100% { transform: rotate(0deg); }
+        }
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+            100% { transform: scale(1); }
+        }
+        .floating {
+            animation: float 3s ease-in-out infinite;
+        }
+        .shaking {
+            animation: shake 0.5s ease-in-out infinite;
+        }
+        .pulsing {
+            animation: pulse 2s infinite;
+        }
+        .confetti {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            background-color: #f00;
+            opacity: 0;
+        }
+        .cake-layer {
+            position: relative;
+            border-radius: 10px;
+            margin: 0 auto;
+        }
+        .candle {
+            position: absolute;
+            width: 8px;
+            height: 30px;
+            background: linear-gradient(to bottom, #fff, #ff0);
+            border-radius: 5px;
+            top: -30px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 10;
+        }
+        .flame {
+            position: absolute;
+            width: 10px;
+            height: 15px;
+            background: linear-gradient(to bottom, #ff0, #f80);
+            border-radius: 50% 50% 20% 20%;
+            top: -40px;
+            left: 50%;
+            transform: translateX(-50%);
+            box-shadow: 0 0 10px #ff0, 0 0 20px #f80;
+            z-index: 11;
+        }
+    </style>
+</head>
+<body class="bg-gradient-to-br from-pink-200 to-purple-300 min-h-screen font-sans">
+    <div class="container mx-auto px-4 py-8">
+        <!-- Header with animated title -->
+        <header class="text-center mb-12">
+            <h1 class="text-5xl md:text-6xl font-bold text-purple-800 mb-4 floating">
+                С Днём Рождения! <span class="text-pink-600">28</span> <i class="fas fa-birthday-cake text-yellow-400"></i>
+            </h1>
+            <p class="text-xl text-gray-700">Ты официально в самом расцвете сил... ну или так говорят!</p>
+        </header>
+
+        <!-- Birthday person section -->
+        <div class="bg-white rounded-2xl shadow-xl p-6 mb-12 max-w-2xl mx-auto text-center relative overflow-hidden">
+            <div id="confetti-container" class="absolute inset-0 pointer-events-none"></div>
+            <div class="w-32 h-32 mx-auto mb-6 rounded-full bg-gradient-to-r from-pink-400 to-purple-500 flex items-center justify-center text-white text-4xl font-bold border-4 border-yellow-300 shadow-lg">
+                28
+            </div>
+            <h2 class="text-3xl font-bold text-purple-700 mb-4">Дорогой именинник!</h2>
+            <p class="text-lg text-gray-700 mb-4">
+                Поздравляю с 28-летием! Теперь ты официально в том возрасте, когда:
+            </p>
+            <ul class="text-left mb-6 space-y-2 text-gray-700">
+                <li class="flex items-start">
+                    <i class="fas fa-check-circle text-green-500 mt-1 mr-2"></i>
+                    <span>Ты уже не молодой дурачок, но ещё не старый ворчун</span>
+                </li>
+                <li class="flex items-start">
+                    <i class="fas fa-check-circle text-green-500 mt-1 mr-2"></i>
+                    <span>Ты помнишь времена без интернета, но уже не можешь без него жить</span>
+                </li>
+                <li class="flex items-start">
+                    <i class="fas fa-check-circle text-green-500 mt-1 mr-2"></i>
+                    <span>Ты начинаешь ценить хороший сон больше, чем вечеринки</span>
+                </li>
+                <li class="flex items-start">
+                    <i class="fas fa-check-circle text-green-500 mt-1 mr-2"></i>
+                    <span>Ты понимаешь, что "взрослая жизнь" - это миф, и все просто притворяются</span>
+                </li>
+            </ul>
+            <button id="congratulateBtn" class="bg-gradient-to-r from-pink-500 to-purple-600 text-white px-6 py-3 rounded-full font-bold text-lg shadow-lg hover:scale-105 transition-transform duration-300">
+                <i class="fas fa-gift mr-2"></i> Получить поздравление!
+            </button>
+        </div>
+
+        <!-- Interactive cake -->
+        <div class="max-w-md mx-auto bg-white rounded-2xl shadow-xl p-6 mb-12 text-center">
+            <h3 class="text-2xl font-bold text-purple-700 mb-6">Твой праздничный торт</h3>
+            <div class="relative" style="height: 200px;">
+                <!-- Cake base -->
+                <div class="cake-layer bg-gradient-to-r from-yellow-200 to-yellow-300 w-48 h-20 bottom-0 left-1/2 transform -translate-x-1/2">
+                    <div class="candle"></div>
+                    <div class="flame" id="flame"></div>
+                </div>
+                <!-- Middle layer -->
+                <div class="cake-layer bg-gradient-to-r from-pink-200 to-pink-300 w-56 h-24 bottom-20 left-1/2 transform -translate-x-1/2"></div>
+                <!-- Top layer -->
+                <div class="cake-layer bg-gradient-to-r from-purple-200 to-purple-300 w-40 h-16 bottom-44 left-1/2 transform -translate-x-1/2"></div>
+                <!-- Cream decorations -->
+                <div class="absolute w-12 h-4 bg-white rounded-full bottom-36 left-1/2 transform -translate-x-24 rotate-12"></div>
+                <div class="absolute w-12 h-4 bg-white rounded-full bottom-36 left-1/2 transform translate-x-12 -rotate-12"></div>
+            </div>
+            <button id="blowCandleBtn" class="mt-8 bg-blue-500 text-white px-6 py-2 rounded-full font-bold shadow-lg hover:bg-blue-600 transition">
+                <i class="fas fa-wind mr-2"></i> Задуть свечу!
+            </button>
+            <p id="candleMessage" class="mt-4 text-gray-600 hidden">Ого! Ты всё ещё можешь задуть свечу без одышки! <i class="fas fa-thumbs-up text-blue-500"></i></p>
+        </div>
+
+        <!-- Age comparison -->
+        <div class="bg-white rounded-2xl shadow-xl p-6 mb-12 max-w-2xl mx-auto">
+            <h3 class="text-2xl font-bold text-purple-700 mb-4 text-center">28 лет - это:</h3>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4 text-center">
+                <div class="bg-pink-100 p-4 rounded-xl">
+                    <div class="text-4xl font-bold text-pink-600 mb-2">336</div>
+                    <div class="text-gray-700">месяцев</div>
+                    <div class="text-sm text-gray-500 mt-2">И ни одного седого волоса! (надеюсь)</div>
+                </div>
+                <div class="bg-purple-100 p-4 rounded-xl">
+                    <div class="text-4xl font-bold text-purple-600 mb-2">10,220</div>
+                    <div class="text-gray-700">дней</div>
+                    <div class="text-sm text-gray-500 mt-2">Из которых ты помнишь примерно 27</div>
+                </div>
+                <div class="bg-yellow-100 p-4 rounded-xl">
+                    <div class="text-4xl font-bold text-yellow-600 mb-2">245,280</div>
+                    <div class="text-gray-700">часов</div>
+                    <div class="text-sm text-gray-500 mt-2">И всего пару сотен из них ты провёл с пользой</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Birthday wishes -->
+        <div class="bg-white rounded-2xl shadow-xl p-6 max-w-2xl mx-auto">
+            <h3 class="text-2xl font-bold text-purple-700 mb-4 text-center">Пожелания на 28-й год жизни:</h3>
+            <div class="space-y-4">
+                <div class="flex items-start bg-pink-50 p-4 rounded-lg">
+                    <div class="bg-pink-200 text-pink-800 rounded-full w-10 h-10 flex items-center justify-center flex-shrink-0 mr-4">
+                        <i class="fas fa-heart"></i>
+                    </div>
+                    <div>
+                        <h4 class="font-bold text-pink-700">Любви</h4>
+                        <p class="text-gray-700">Чтобы сердце билось чаще не только когда поднимаешься на 5 этаж</p>
+                    </div>
+                </div>
+                <div class="flex items-start bg-purple-50 p-4 rounded-lg">
+                    <div class="bg-purple-200 text-purple-800 rounded-full w-10 h-10 flex items-center justify-center flex-shrink-0 mr-4">
+                        <i class="fas fa-money-bill-wave"></i>
+                    </div>
+                    <div>
+                        <h4 class="font-bold text-purple-700">Денег</h4>
+                        <p class="text-gray-700">Чтобы хватало не только на еду, но и на что-то вкусное к этой еде</p>
+                    </div>
+                </div>
+                <div class="flex items-start bg-yellow-50 p-4 rounded-lg">
+                    <div class="bg-yellow-200 text-yellow-800 rounded-full w-10 h-10 flex items-center justify-center flex-shrink-0 mr-4">
+                        <i class="fas fa-laugh-beam"></i>
+                    </div>
+                    <div>
+                        <h4 class="font-bold text-yellow-700">Юмора</h4>
+                        <p class="text-gray-700">Чтобы смеяться над своими проблемами, а не плакать над ними</p>
+                    </div>
+                </div>
+                <div class="flex items-start bg-blue-50 p-4 rounded-lg">
+                    <div class="bg-blue-200 text-blue-800 rounded-full w-10 h-10 flex items-center justify-center flex-shrink-0 mr-4">
+                        <i class="fas fa-umbrella-beach"></i>
+                    </div>
+                    <div>
+                        <h4 class="font-bold text-blue-700">Отдыха</h4>
+                        <p class="text-gray-700">Чтобы отпуск был чаще, чем раз в 28 лет</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <footer class="text-center mt-12 text-gray-600">
+            <p>Создано с <i class="fas fa-heart text-red-500"></i> для самого лучшего 28-летнего человека!</p>
+            <p class="mt-2 text-sm">P.S. Не волнуйся, 30 - это новые 20! (Но с болями в спине)</p>
+        </footer>
+    </div>
+
+    <script>
+        // Confetti effect
+        function createConfetti() {
+            const container = document.getElementById('confetti-container');
+            const colors = ['#f44336', '#e91e63', '#9c27b0', '#673ab7', '#3f51b5', '#2196f3', '#03a9f4', '#00bcd4', '#009688', '#4CAF50', '#8BC34A', '#CDDC39', '#FFEB3B', '#FFC107', '#FF9800', '#FF5722'];
+            
+            for (let i = 0; i < 100; i++) {
+                const confetti = document.createElement('div');
+                confetti.className = 'confetti';
+                confetti.style.left = Math.random() * 100 + 'vw';
+                confetti.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+                confetti.style.transform = `rotate(${Math.random() * 360}deg)`;
+                
+                const size = Math.random() * 10 + 5;
+                confetti.style.width = size + 'px';
+                confetti.style.height = size + 'px';
+                
+                container.appendChild(confetti);
+                
+                const animationDuration = Math.random() * 3 + 2;
+                
+                confetti.animate([
+                    { opacity: 1, transform: `translateY(0) translateX(${Math.random() * 100 - 50}px) rotate(0deg)` },
+                    { opacity: 0, transform: `translateY(500px) translateX(${Math.random() * 100 - 50}px) rotate(${Math.random() * 360}deg)` }
+                ], {
+                    duration: animationDuration * 1000,
+                    easing: 'cubic-bezier(0.1, 0.8, 0.9, 1)'
+                });
+                
+                setTimeout(() => {
+                    confetti.remove();
+                }, animationDuration * 1000);
+            }
+        }
+
+        // Button click handlers
+        document.getElementById('congratulateBtn').addEventListener('click', function() {
+            createConfetti();
+            this.innerHTML = '<i class="fas fa-star mr-2"></i> Ура! Поздравление получено!';
+            this.classList.remove('from-pink-500', 'to-purple-600');
+            this.classList.add('from-yellow-400', 'to-yellow-500');
+            this.disabled = true;
+            
+            // Add floating balloons
+            const balloons = ['🎈', '🎉', '🎊', '🎁', '🎀'];
+            for (let i = 0; i < 10; i++) {
+                const balloon = document.createElement('div');
+                balloon.className = 'text-4xl absolute floating';
+                balloon.style.left = Math.random() * 100 + 'vw';
+                balloon.style.top = Math.random() * 100 + 'vh';
+                balloon.style.opacity = '0.8';
+                balloon.textContent = balloons[Math.floor(Math.random() * balloons.length)];
+                document.body.appendChild(balloon);
+                
+                setTimeout(() => {
+                    balloon.remove();
+                }, 5000);
+            }
+        });
+
+        document.getElementById('blowCandleBtn').addEventListener('click', function() {
+            const flame = document.getElementById('flame');
+            const message = document.getElementById('candleMessage');
+            
+            flame.style.display = 'none';
+            message.classList.remove('hidden');
+            
+            this.innerHTML = '<i class="fas fa-check mr-2"></i> Свеча задута!';
+            this.disabled = true;
+            this.classList.remove('bg-blue-500');
+            this.classList.add('bg-gray-400');
+            
+            // Add smoke effect
+            const smoke = document.createElement('div');
+            smoke.className = 'absolute w-4 h-4 bg-gray-200 rounded-full';
+            smoke.style.left = '50%';
+            smoke.style.top = '-60px';
+            smoke.style.transform = 'translateX(-50%)';
+            document.querySelector('.cake-layer').appendChild(smoke);
+            
+            smoke.animate([
+                { opacity: 1, transform: 'translateX(-50%) translateY(0) scale(1)' },
+                { opacity: 0, transform: 'translateX(-50%) translateY(-50px) scale(3)' }
+            ], {
+                duration: 2000,
+                easing: 'ease-out'
+            });
+            
+            setTimeout(() => {
+                smoke.remove();
+            }, 2000);
+        });
+
+        // Make flame flicker
+        setInterval(() => {
+            const flame = document.getElementById('flame');
+            if (flame.style.display !== 'none') {
+                flame.style.width = (8 + Math.random() * 4) + 'px';
+                flame.style.height = (12 + Math.random() * 6) + 'px';
+                flame.style.transform = `translateX(-50%) rotate(${Math.random() * 10 - 5}deg)`;
+            }
+        }, 300);
+    </script>
+</body>
+</html>
